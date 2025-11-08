@@ -33,17 +33,12 @@ public:
     QString themeName;
     Aurorae::ThemeConfig themeConfig;
     QHash<AuroraeButtonType, QString> pathes;
-    bool activeCompositing;
-    KDecoration3::BorderSize borderSize;
     KDecoration3::BorderSize buttonSize;
-    QString dragMimeType;
     QString decorationPath;
 };
 
 AuroraeThemePrivate::AuroraeThemePrivate()
-    : activeCompositing(true)
-    , borderSize(KDecoration3::BorderSize::Normal)
-    , buttonSize(KDecoration3::BorderSize::Normal)
+    : buttonSize(KDecoration3::BorderSize::Normal)
 {
 }
 
@@ -70,10 +65,13 @@ void AuroraeThemePrivate::initButtonFrame(AuroraeButtonType type)
 /************************************************
  * AuroraeTheme
  ************************************************/
-AuroraeTheme::AuroraeTheme(QObject *parent)
+AuroraeTheme::AuroraeTheme(const QString &themeName, QObject *parent)
     : QObject(parent)
     , d(std::make_unique<AuroraeThemePrivate>())
 {
+    KConfig config(QLatin1String("aurorae/themes/") + themeName + QLatin1Char('/') + themeName + QLatin1String("rc"), KConfig::FullConfig, QStandardPaths::GenericDataLocation);
+    loadTheme(themeName, config);
+
     connect(this, &AuroraeTheme::themeChanged, this, &AuroraeTheme::borderSizesChanged);
     connect(this, &AuroraeTheme::buttonSizesChanged, this, &AuroraeTheme::borderSizesChanged);
 }
@@ -83,15 +81,6 @@ AuroraeTheme::~AuroraeTheme() = default;
 bool AuroraeTheme::isValid() const
 {
     return !d->themeName.isNull();
-}
-
-void AuroraeTheme::loadTheme(const QString &name)
-{
-    KConfig conf(QStringLiteral("auroraerc"));
-    KConfig config(QLatin1String("aurorae/themes/") + name + QLatin1Char('/') + name + QLatin1String("rc"),
-                   KConfig::FullConfig, QStandardPaths::GenericDataLocation);
-    KConfigGroup themeGroup(&conf, name);
-    loadTheme(name, config);
 }
 
 void AuroraeTheme::loadTheme(const QString &name, const KConfig &config)
@@ -161,180 +150,112 @@ QLatin1String AuroraeTheme::mapButtonToName(AuroraeButtonType type)
     }
 }
 
-const QString &AuroraeTheme::themeName() const
+QString AuroraeTheme::themeName() const
 {
     return d->themeName;
 }
 
-void AuroraeTheme::borders(int &left, int &top, int &right, int &bottom, bool maximized) const
+QMarginsF AuroraeTheme::borders(KDecoration3::BorderSize borderSize) const
 {
     const qreal titleHeight = std::max((qreal)d->themeConfig.titleHeight(),
                                        d->themeConfig.buttonHeight() * buttonSizeFactor() + d->themeConfig.buttonMarginTop());
-    if (maximized) {
-        const qreal title = titleHeight + d->themeConfig.titleEdgeTopMaximized() + d->themeConfig.titleEdgeBottomMaximized();
-        switch ((DecorationPosition)d->themeConfig.decorationPosition()) {
-        case DecorationTop:
-            left = right = bottom = 0;
-            top = title;
-            break;
-        case DecorationBottom:
-            left = right = top = 0;
-            bottom = title;
-            break;
-        case DecorationLeft:
-            top = right = bottom = 0;
-            left = title;
-            break;
-        case DecorationRight:
-            left = top = bottom = 0;
-            right = title;
-            break;
-        default:
-            left = right = bottom = top = 0;
-            break;
-        }
-    } else {
-        int minMargin;
-        int maxMargin;
-        switch (d->borderSize) {
-        case KDecoration3::BorderSize::NoSides:
-        case KDecoration3::BorderSize::Tiny:
-            minMargin = 1;
-            maxMargin = 4;
-            break;
-        case KDecoration3::BorderSize::Normal:
-            minMargin = 4;
-            maxMargin = 6;
-            break;
-        case KDecoration3::BorderSize::Large:
-            minMargin = 6;
-            maxMargin = 8;
-            break;
-        case KDecoration3::BorderSize::VeryLarge:
-            minMargin = 8;
-            maxMargin = 12;
-            break;
-        case KDecoration3::BorderSize::Huge:
-            minMargin = 12;
-            maxMargin = 20;
-            break;
-        case KDecoration3::BorderSize::VeryHuge:
-            minMargin = 23;
-            maxMargin = 30;
-            break;
-        case KDecoration3::BorderSize::Oversized:
-            minMargin = 36;
-            maxMargin = 48;
-            break;
-        default:
-            minMargin = 0;
-            maxMargin = 0;
-        }
 
-        left = std::clamp(d->themeConfig.borderLeft(), minMargin, maxMargin);
-        right = std::clamp(d->themeConfig.borderRight(), minMargin, maxMargin);
-        bottom = std::clamp(d->themeConfig.borderBottom(), minMargin, maxMargin);
+    int minMargin;
+    int maxMargin;
+    switch (borderSize) {
+    case KDecoration3::BorderSize::NoSides:
+    case KDecoration3::BorderSize::Tiny:
+        minMargin = 1;
+        maxMargin = 4;
+        break;
+    case KDecoration3::BorderSize::Normal:
+        minMargin = 4;
+        maxMargin = 6;
+        break;
+    case KDecoration3::BorderSize::Large:
+        minMargin = 6;
+        maxMargin = 8;
+        break;
+    case KDecoration3::BorderSize::VeryLarge:
+        minMargin = 8;
+        maxMargin = 12;
+        break;
+    case KDecoration3::BorderSize::Huge:
+        minMargin = 12;
+        maxMargin = 20;
+        break;
+    case KDecoration3::BorderSize::VeryHuge:
+        minMargin = 23;
+        maxMargin = 30;
+        break;
+    case KDecoration3::BorderSize::Oversized:
+        minMargin = 36;
+        maxMargin = 48;
+        break;
+    default:
+        minMargin = 0;
+        maxMargin = 0;
+    }
 
-        if (d->borderSize == KDecoration3::BorderSize::None) {
-            left = 0;
-            right = 0;
-            bottom = 0;
-        } else if (d->borderSize == KDecoration3::BorderSize::NoSides) {
-            left = 0;
-            right = 0;
-        }
+    int top = std::clamp(d->themeConfig.borderTop(), minMargin, maxMargin);
+    int left = std::clamp(d->themeConfig.borderLeft(), minMargin, maxMargin);
+    int right = std::clamp(d->themeConfig.borderRight(), minMargin, maxMargin);
+    int bottom = std::clamp(d->themeConfig.borderBottom(), minMargin, maxMargin);
 
-        const qreal title = titleHeight + d->themeConfig.titleEdgeTop() + d->themeConfig.titleEdgeBottom();
-        switch ((DecorationPosition)d->themeConfig.decorationPosition()) {
-        case DecorationTop:
-            top = title;
-            break;
-        case DecorationBottom:
-            bottom = title;
-            break;
-        case DecorationLeft:
-            left = title;
-            break;
-        case DecorationRight:
-            right = title;
-            break;
-        default:
-            left = right = bottom = top = 0;
-            break;
-        }
+    if (borderSize == KDecoration3::BorderSize::None) {
+        left = 0;
+        right = 0;
+        bottom = 0;
+    } else if (borderSize == KDecoration3::BorderSize::NoSides) {
+        left = 0;
+        right = 0;
+    }
+
+    const qreal title = titleHeight + d->themeConfig.titleEdgeTop() + d->themeConfig.titleEdgeBottom();
+    switch ((DecorationPosition)d->themeConfig.decorationPosition()) {
+    case DecorationTop:
+        top = title;
+        break;
+    case DecorationBottom:
+        bottom = title;
+        break;
+    case DecorationLeft:
+        left = title;
+        break;
+    case DecorationRight:
+        right = title;
+        break;
+    default:
+        left = right = bottom = top = 0;
+        break;
+    }
+
+    return QMarginsF(left, top, right, bottom);
+}
+
+QMarginsF AuroraeTheme::maximizedBorders() const
+{
+    const qreal titleHeight = std::max((qreal)d->themeConfig.titleHeight(),
+                                       d->themeConfig.buttonHeight() * buttonSizeFactor() + d->themeConfig.buttonMarginTop());
+
+    const qreal title = titleHeight + d->themeConfig.titleEdgeTopMaximized() + d->themeConfig.titleEdgeBottomMaximized();
+    switch ((DecorationPosition)d->themeConfig.decorationPosition()) {
+    case DecorationTop:
+        return QMarginsF(0, title, 0, 0);
+    case DecorationBottom:
+        return QMarginsF(0, 0, 0, title);
+    case DecorationLeft:
+        return QMarginsF(title, 0, 0, 0);
+    case DecorationRight:
+        return QMarginsF(0, 0, title, 0);
+    default:
+        return QMarginsF();
     }
 }
 
-int AuroraeTheme::bottomBorder() const
+QMarginsF AuroraeTheme::padding() const
 {
-    int left, top, right, bottom;
-    left = top = right = bottom = 0;
-    borders(left, top, right, bottom, false);
-    return bottom;
-}
-
-int AuroraeTheme::leftBorder() const
-{
-    int left, top, right, bottom;
-    left = top = right = bottom = 0;
-    borders(left, top, right, bottom, false);
-    return left;
-}
-
-int AuroraeTheme::rightBorder() const
-{
-    int left, top, right, bottom;
-    left = top = right = bottom = 0;
-    borders(left, top, right, bottom, false);
-    return right;
-}
-
-int AuroraeTheme::topBorder() const
-{
-    int left, top, right, bottom;
-    left = top = right = bottom = 0;
-    borders(left, top, right, bottom, false);
-    return top;
-}
-
-int AuroraeTheme::bottomBorderMaximized() const
-{
-    int left, top, right, bottom;
-    left = top = right = bottom = 0;
-    borders(left, top, right, bottom, true);
-    return bottom;
-}
-
-int AuroraeTheme::leftBorderMaximized() const
-{
-    int left, top, right, bottom;
-    left = top = right = bottom = 0;
-    borders(left, top, right, bottom, true);
-    return left;
-}
-
-int AuroraeTheme::rightBorderMaximized() const
-{
-    int left, top, right, bottom;
-    left = top = right = bottom = 0;
-    borders(left, top, right, bottom, true);
-    return right;
-}
-
-int AuroraeTheme::topBorderMaximized() const
-{
-    int left, top, right, bottom;
-    left = top = right = bottom = 0;
-    borders(left, top, right, bottom, true);
-    return top;
-}
-
-void AuroraeTheme::padding(int &left, int &top, int &right, int &bottom) const
-{
-    left = d->themeConfig.paddingLeft();
-    top = d->themeConfig.paddingTop();
-    right = d->themeConfig.paddingRight();
-    bottom = d->themeConfig.paddingBottom();
+    return QMarginsF(d->themeConfig.paddingLeft(), d->themeConfig.paddingTop(), d->themeConfig.paddingRight(), d->themeConfig.paddingBottom());
 }
 
 #define THEME_CONFIG(prototype)            \
@@ -343,10 +264,6 @@ void AuroraeTheme::padding(int &left, int &top, int &right, int &bottom) const
         return d->themeConfig.prototype(); \
     }
 
-THEME_CONFIG(paddingBottom)
-THEME_CONFIG(paddingLeft)
-THEME_CONFIG(paddingRight)
-THEME_CONFIG(paddingTop)
 THEME_CONFIG(buttonWidth)
 THEME_CONFIG(buttonWidthMinimize)
 THEME_CONFIG(buttonWidthMaximizeRestore)
@@ -364,12 +281,6 @@ THEME_CONFIG(buttonMarginTop)
 THEME_CONFIG(buttonMarginTopMaximized)
 THEME_CONFIG(explicitButtonSpacer)
 THEME_CONFIG(animationTime)
-THEME_CONFIG(titleEdgeLeft)
-THEME_CONFIG(titleEdgeRight)
-THEME_CONFIG(titleEdgeTop)
-THEME_CONFIG(titleEdgeLeftMaximized)
-THEME_CONFIG(titleEdgeRightMaximized)
-THEME_CONFIG(titleEdgeTopMaximized)
 THEME_CONFIG(titleBorderLeft)
 THEME_CONFIG(titleBorderRight)
 THEME_CONFIG(titleHeight)
@@ -417,38 +328,14 @@ BUTTON_PATH(appMenuButtonPath, AppMenuButton)
 
 #undef BUTTON_PATH
 
-void AuroraeTheme::titleEdges(int &left, int &top, int &right, int &bottom, bool maximized) const
+QMarginsF AuroraeTheme::titleEdges() const
 {
-    if (maximized) {
-        left = d->themeConfig.titleEdgeLeftMaximized();
-        top = d->themeConfig.titleEdgeTopMaximized();
-        right = d->themeConfig.titleEdgeRightMaximized();
-        bottom = d->themeConfig.titleEdgeBottomMaximized();
-    } else {
-        left = d->themeConfig.titleEdgeLeft();
-        top = d->themeConfig.titleEdgeTop();
-        right = d->themeConfig.titleEdgeRight();
-        bottom = d->themeConfig.titleEdgeBottom();
-    }
+    return QMarginsF(d->themeConfig.titleEdgeLeft(), d->themeConfig.titleEdgeTop(), d->themeConfig.titleEdgeRight(), d->themeConfig.titleEdgeBottom());
 }
 
-bool AuroraeTheme::isCompositingActive() const
+QMarginsF AuroraeTheme::titleEdgesMaximized() const
 {
-    return d->activeCompositing;
-}
-
-void AuroraeTheme::setCompositingActive(bool active)
-{
-    d->activeCompositing = active;
-}
-
-void AuroraeTheme::setBorderSize(KDecoration3::BorderSize size)
-{
-    if (d->borderSize == size) {
-        return;
-    }
-    d->borderSize = size;
-    Q_EMIT borderSizesChanged();
+    return QMarginsF(d->themeConfig.titleEdgeLeftMaximized(), d->themeConfig.titleEdgeTopMaximized(), d->themeConfig.titleEdgeRightMaximized(), d->themeConfig.titleEdgeBottomMaximized());
 }
 
 void AuroraeTheme::setButtonSize(KDecoration3::BorderSize size)
@@ -458,16 +345,6 @@ void AuroraeTheme::setButtonSize(KDecoration3::BorderSize size)
     }
     d->buttonSize = size;
     Q_EMIT buttonSizesChanged();
-}
-
-void AuroraeTheme::setTabDragMimeType(const QString &mime)
-{
-    d->dragMimeType = mime;
-}
-
-const QString &AuroraeTheme::tabDragMimeType() const
-{
-    return d->dragMimeType;
 }
 
 qreal AuroraeTheme::buttonSizeFactor() const
