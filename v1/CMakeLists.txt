@@ -73,5 +73,4 @@ install(
         ${KDE_INSTALL_QMLDIR}/org/kde/kwin/decoration
 )
 
-add_subdirectory(config)
 add_subdirectory(themes)

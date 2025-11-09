@@ -5,7 +5,7 @@
 */
 
 #include "auroraeconfig.h"
-#include "auroraeshared.h"
+#include "../auroraeshared.h"
 #include <KDecoration3/DecorationButton>
 #include <KLocalizedString>
 #include <KLocalizedTranslator>

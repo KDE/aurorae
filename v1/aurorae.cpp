@@ -5,7 +5,7 @@
 */
 #include "aurorae.h"
 
-#include "auroraeshared.h"
+#include "../auroraeshared.h"
 #include "auroraetheme.h"
 #include "renderer.h"
 // qml imports
