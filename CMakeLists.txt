@@ -105,4 +105,17 @@ kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
 ki18n_install(po)
 
+configure_file(aurorae.knsrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/aurorae.knsrc)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/aurorae.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR})
+
+configure_file(plasma-apply-aurorae.cmake ${CMAKE_CURRENT_BINARY_DIR}/plasma-apply-aurorae)
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/plasma-apply-aurorae
+    PERMISSIONS
+        OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+    DESTINATION
+        ${KDE_INSTALL_LIBEXECDIR}
+)
+
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
