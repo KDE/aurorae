@@ -80,7 +80,6 @@ ecm_set_disabled_deprecation_versions(QT 5.15
 )
 
 add_subdirectory(src)
-add_subdirectory(themes)
 
 ecm_setup_version(${PROJECT_VERSION}
     VARIABLE_PREFIX AURORAE
