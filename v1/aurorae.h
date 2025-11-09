@@ -93,7 +93,6 @@ public:
 private:
     void init();
     void findAllQmlThemes();
-    void findAllSvgThemes();
     bool hasConfiguration(const QString &theme);
     QList<KDecoration3::DecorationThemeMetaData> m_themes;
     const KPluginMetaData m_data;

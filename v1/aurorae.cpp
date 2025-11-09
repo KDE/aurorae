@@ -609,7 +609,6 @@ ThemeProvider::ThemeProvider(QObject *parent, const KPluginMetaData &data)
 void ThemeProvider::init()
 {
     findAllQmlThemes();
-    findAllSvgThemes();
 }
 
 void ThemeProvider::findAllQmlThemes()
@@ -627,50 +626,8 @@ void ThemeProvider::findAllQmlThemes()
     }
 }
 
-void ThemeProvider::findAllSvgThemes()
-{
-    QStringList themes;
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("aurorae/themes/"), QStandardPaths::LocateDirectory);
-    QStringList themeDirectories;
-    for (const QString &dir : dirs) {
-        QDir directory = QDir(dir);
-        for (const QString &themeDir : directory.entryList(QDir::AllDirs | QDir::NoDotAndDotDot)) {
-            themeDirectories << dir + themeDir;
-        }
-    }
-    for (const QString &dir : themeDirectories) {
-        for (const QString &file : QDir(dir).entryList(QStringList() << QStringLiteral("metadata.desktop"))) {
-            themes.append(dir + '/' + file);
-        }
-    }
-    for (const QString &theme : themes) {
-        int themeSepIndex = theme.lastIndexOf('/', -1);
-        QString themeRoot = theme.left(themeSepIndex);
-        int themeNameSepIndex = themeRoot.lastIndexOf('/', -1);
-        QString packageName = themeRoot.right(themeRoot.length() - themeNameSepIndex - 1);
-
-        KDesktopFile df(theme);
-        QString name = df.readName();
-        if (name.isEmpty()) {
-            name = packageName;
-        }
-
-        KDecoration3::DecorationThemeMetaData data;
-        data.setPluginId(m_data.pluginId());
-        data.setThemeName(QLatin1String("__aurorae__svg__") + packageName);
-        data.setVisibleName(name);
-        if (hasConfiguration(data.themeName())) {
-            data.setConfigurationName("kcm_auroraedecoration");
-        }
-        m_themes.append(data);
-    }
-}
-
 bool ThemeProvider::hasConfiguration(const QString &theme)
 {
-    if (theme.startsWith(QLatin1String("__aurorae__svg__"))) {
-        return true;
-    }
     const QString ui = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                               QStringLiteral("kwin/decorations/%1/contents/ui/config.ui").arg(theme));
     const QString xml = QStandardPaths::locate(QStandardPaths::GenericDataLocation,

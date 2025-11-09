@@ -4,12 +4,12 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_library(kwin5_aurorae MODULE)
-set_target_properties(kwin5_aurorae PROPERTIES
+add_library(aurorae_v1 MODULE)
+set_target_properties(aurorae_v1 PROPERTIES
     LIBRARY_OUTPUT_NAME "org.kde.kwin.aurorae"
 )
 
-target_sources(kwin5_aurorae PRIVATE
+target_sources(aurorae_v1 PRIVATE
     aurorae.cpp
     decorationoptions.cpp
     lib/auroraetheme.cpp
@@ -17,11 +17,11 @@ target_sources(kwin5_aurorae PRIVATE
     renderer.cpp
 )
 
-target_compile_definitions(kwin5_aurorae PRIVATE
+target_compile_definitions(aurorae_v1 PRIVATE
     -DTRANSLATION_DOMAIN=\"aurorae\"
 )
 
-target_link_libraries(kwin5_aurorae
+target_link_libraries(aurorae_v1
     KDecoration3::KDecoration
     KF6::I18n
     KF6::Package
@@ -29,7 +29,7 @@ target_link_libraries(kwin5_aurorae
     Qt::Quick
 )
 
-install(TARGETS kwin5_aurorae DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration3)
+install(TARGETS aurorae_v1 DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration3)
 
 add_library(decorationplugin SHARED)
 target_sources(decorationplugin PRIVATE
