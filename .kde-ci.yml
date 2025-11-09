@@ -11,9 +11,5 @@ Dependencies:
     'frameworks/ki18n': '@latest-kf6'
     'frameworks/knewstuff': '@latest-kf6'
     'frameworks/kpackage': '@latest-kf6'
-    'plasma/kdecoration': '@same'
-
-RuntimeDependencies:
- - 'on': ['@all']
-   'require':
     'frameworks/ksvg': '@latest-kf6'
+    'plasma/kdecoration': '@same'

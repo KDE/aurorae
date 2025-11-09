@@ -1,0 +1,7 @@
+{
+    "org.kde.kdecoration3": {
+        "KNewStuff": "aurorae.knsrc",
+        "themeListKeyword": "themes",
+        "themes": true
+    }
+}
