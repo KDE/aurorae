@@ -151,25 +151,25 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
     switch (type) {
     case KDecoration3::DecorationButtonType::Menu: {
         auto button = new MenuDecorationButton(decoration, parent);
-        button->setImplicitSize(QSizeF(m_theme->buttonWidthMenu(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImplicitSize(m_theme->menuButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthMenu(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->menuButtonSize() * buttonSizeFactor());
         });
         return button;
     }
     case KDecoration3::DecorationButtonType::ApplicationMenu: {
         if (!m_theme->appMenuButtonPath().isEmpty()) {
             auto button = new AppMenuDecorationButton(decoration, parent);
-            button->setImagePath(m_theme->appMenuButtonPath(), QSizeF(m_theme->buttonWidth(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImagePath(m_theme->appMenuButtonPath(), m_theme->appMenuButtonSize() * buttonSizeFactor());
             connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-                button->setImplicitSize(QSizeF(m_theme->buttonWidth(), m_theme->buttonHeight()) * buttonSizeFactor());
+                button->setImplicitSize(m_theme->appMenuButtonSize() * buttonSizeFactor());
             });
             return button;
         } else {
             auto button = new FallbackAppMenuDecorationButton(decoration, parent);
-            button->setImplicitSize(QSizeF(m_theme->buttonWidth(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->appMenuButtonSize() * buttonSizeFactor());
             connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-                button->setImplicitSize(QSizeF(m_theme->buttonWidth(), m_theme->buttonHeight()) * buttonSizeFactor());
+                button->setImplicitSize(m_theme->appMenuButtonSize() * buttonSizeFactor());
             });
             return button;
         }
@@ -179,9 +179,9 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
             return nullptr;
         }
         auto button = new OnAllDesktopsDecorationButton(decoration, parent);
-        button->setImagePath(m_theme->allDesktopsButtonPath(), QSizeF(m_theme->buttonWidthAllDesktops(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImagePath(m_theme->allDesktopsButtonPath(), m_theme->allDesktopsButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthAllDesktops(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->allDesktopsButtonSize() * buttonSizeFactor());
         });
         return button;
     }
@@ -190,9 +190,9 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
             return nullptr;
         }
         auto button = new MinimizeDecorationButton(decoration, parent);
-        button->setImagePath(m_theme->minimizeButtonPath(), QSizeF(m_theme->buttonWidthMinimize(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImagePath(m_theme->minimizeButtonPath(), m_theme->minimizeButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthMinimize(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->minimizeButtonSize() * buttonSizeFactor());
         });
         return button;
     }
@@ -201,9 +201,9 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
             return nullptr;
         }
         auto button = new MaximizeDecorationButton(decoration, parent);
-        button->setImagePath(m_theme->maximizeButtonPath(), m_theme->restoreButtonPath(), QSizeF(m_theme->buttonWidthMaximizeRestore(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImagePath(m_theme->maximizeButtonPath(), m_theme->restoreButtonPath(), m_theme->maximizeRestoreButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthMaximizeRestore(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->maximizeRestoreButtonSize() * buttonSizeFactor());
         });
         return button;
     }
@@ -212,9 +212,9 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
             return nullptr;
         }
         auto button = new CloseDecorationButton(decoration, parent);
-        button->setImagePath(m_theme->closeButtonPath(), QSizeF(m_theme->buttonWidthClose(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImagePath(m_theme->closeButtonPath(), m_theme->closeButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthClose(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->closeButtonSize() * buttonSizeFactor());
         });
         return button;
     }
@@ -223,9 +223,9 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
             return nullptr;
         }
         auto button = new HelpDecorationButton(decoration, parent);
-        button->setImagePath(m_theme->helpButtonPath(), QSizeF(m_theme->buttonWidthHelp(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImagePath(m_theme->helpButtonPath(), m_theme->helpButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthHelp(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->helpButtonSize() * buttonSizeFactor());
         });
         return button;
     }
@@ -234,9 +234,9 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
             return nullptr;
         }
         auto button = new ShadeDecorationButton(decoration, parent);
-        button->setImagePath(m_theme->shadeButtonPath(), QSizeF(m_theme->buttonWidthShade(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImagePath(m_theme->shadeButtonPath(), m_theme->shadeButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthShade(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->shadeButtonSize() * buttonSizeFactor());
         });
         return button;
     }
@@ -245,9 +245,9 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
             return nullptr;
         }
         auto button = new KeepBelowDecorationButton(decoration, parent);
-        button->setImagePath(m_theme->keepBelowButtonPath(), QSizeF(m_theme->buttonWidthKeepBelow(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImagePath(m_theme->keepBelowButtonPath(), m_theme->keepBelowButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthKeepBelow(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->keepBelowButtonSize() * buttonSizeFactor());
         });
         return button;
     }
@@ -256,9 +256,9 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
             return nullptr;
         }
         auto button = new KeepAboveDecorationButton(decoration, parent);
-        button->setImagePath(m_theme->keepAboveButtonPath(), QSizeF(m_theme->buttonWidthKeepAbove(), m_theme->buttonHeight()) * buttonSizeFactor());
+        button->setImagePath(m_theme->keepAboveButtonPath(), m_theme->keepAboveButtonSize() * buttonSizeFactor());
         connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
-            button->setImplicitSize(QSizeF(m_theme->buttonWidthKeepAbove(), m_theme->buttonHeight()) * buttonSizeFactor());
+            button->setImplicitSize(m_theme->keepAboveButtonSize() * buttonSizeFactor());
         });
         return button;
     }

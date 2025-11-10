@@ -253,59 +253,59 @@ QMarginsF DecorationTheme::padding() const
     return QMarginsF(m_paddingLeft, m_paddingTop, m_paddingRight, m_paddingBottom);
 }
 
+QSizeF DecorationTheme::minimizeButtonSize() const
+{
+    return QSizeF(m_buttonWidthMinimize, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::maximizeRestoreButtonSize() const
+{
+    return QSizeF(m_buttonWidthMaximizeRestore, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::closeButtonSize() const
+{
+    return QSizeF(m_buttonWidthClose, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::allDesktopsButtonSize() const
+{
+    return QSizeF(m_buttonWidthAllDesktops, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::keepAboveButtonSize() const
+{
+    return QSizeF(m_buttonWidthKeepAbove, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::keepBelowButtonSize() const
+{
+    return QSizeF(m_buttonWidthKeepBelow, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::shadeButtonSize() const
+{
+    return QSizeF(m_buttonWidthShade, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::helpButtonSize() const
+{
+    return QSizeF(m_buttonWidthHelp, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::menuButtonSize() const
+{
+    return QSizeF(m_buttonWidthMenu, m_buttonHeight);
+}
+
+QSizeF DecorationTheme::appMenuButtonSize() const
+{
+    return QSizeF(m_buttonWidthAppMenu, m_buttonHeight);
+}
+
 qreal DecorationTheme::buttonWidth() const
 {
     return m_buttonWidth;
-}
-
-qreal DecorationTheme::buttonWidthMinimize() const
-{
-    return m_buttonWidthMinimize;
-}
-
-qreal DecorationTheme::buttonWidthMaximizeRestore() const
-{
-    return m_buttonWidthMaximizeRestore;
-}
-
-qreal DecorationTheme::buttonWidthClose() const
-{
-    return m_buttonWidthClose;
-}
-
-qreal DecorationTheme::buttonWidthAllDesktops() const
-{
-    return m_buttonWidthAllDesktops;
-}
-
-qreal DecorationTheme::buttonWidthKeepAbove() const
-{
-    return m_buttonWidthKeepAbove;
-}
-
-qreal DecorationTheme::buttonWidthKeepBelow() const
-{
-    return m_buttonWidthKeepBelow;
-}
-
-qreal DecorationTheme::buttonWidthShade() const
-{
-    return m_buttonWidthShade;
-}
-
-qreal DecorationTheme::buttonWidthHelp() const
-{
-    return m_buttonWidthHelp;
-}
-
-qreal DecorationTheme::buttonWidthMenu() const
-{
-    return m_buttonWidthMenu;
-}
-
-qreal DecorationTheme::buttonWidthAppMenu() const
-{
-    return m_buttonWidthAppMenu;
 }
 
 qreal DecorationTheme::buttonHeight() const
