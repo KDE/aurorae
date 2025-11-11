@@ -427,6 +427,20 @@ FallbackAppMenuDecorationButton::FallbackAppMenuDecorationButton(KDecoration3::D
     });
 }
 
+SpacerButton::SpacerButton(KDecoration3::Decoration *decoration, QObject *parent)
+    : DecorationButton(KDecoration3::DecorationButtonType::Spacer, decoration, parent)
+{
+}
+
+void SpacerButton::setImplicitSize(const QSizeF &size)
+{
+    setGeometry(QRectF(QPointF(), size));
+}
+
+void SpacerButton::paint(QPainter *painter, const QRectF &repaintArea)
+{
+}
+
 } // namespace Aurorae
 
 #include "moc_decorationbutton.cpp"

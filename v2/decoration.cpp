@@ -262,6 +262,14 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
         });
         return button;
     }
+    case KDecoration3::DecorationButtonType::Spacer: {
+        auto button = new SpacerButton(decoration, parent);
+        button->setImplicitSize(m_theme->spacerButtonSize() * buttonSizeFactor());
+        connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
+            button->setImplicitSize(m_theme->spacerButtonSize() * buttonSizeFactor());
+        });
+        return button;
+    }
     default:
         return nullptr;
     }

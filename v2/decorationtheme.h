@@ -43,12 +43,12 @@ public:
     QSizeF helpButtonSize() const;
     QSizeF menuButtonSize() const;
     QSizeF appMenuButtonSize() const;
+    QSizeF spacerButtonSize() const;
     qreal buttonWidth() const;
     qreal buttonHeight() const;
     qreal buttonSpacing() const;
     qreal buttonMarginTop() const;
     qreal buttonMarginTopMaximized() const;
-    qreal explicitButtonSpacer() const;
     int animationTime() const;
     QMarginsF titleEdges() const;
     QMarginsF titleEdgesMaximized() const;

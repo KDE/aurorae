@@ -303,6 +303,11 @@ QSizeF DecorationTheme::appMenuButtonSize() const
     return QSizeF(m_buttonWidthAppMenu, m_buttonHeight);
 }
 
+QSizeF DecorationTheme::spacerButtonSize() const
+{
+    return QSizeF(m_explicitButtonSpacer, m_buttonHeight);
+}
+
 qreal DecorationTheme::buttonWidth() const
 {
     return m_buttonWidth;
@@ -326,11 +331,6 @@ qreal DecorationTheme::buttonMarginTop() const
 qreal DecorationTheme::buttonMarginTopMaximized() const
 {
     return m_buttonMarginTopMaximized;
-}
-
-qreal DecorationTheme::explicitButtonSpacer() const
-{
-    return m_explicitButtonSpacer;
 }
 
 int DecorationTheme::animationTime() const

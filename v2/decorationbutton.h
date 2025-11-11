@@ -185,6 +185,18 @@ public:
     explicit FallbackAppMenuDecorationButton(KDecoration3::Decoration *decoration, QObject *parent = nullptr);
 };
 
+class SpacerButton : public DecorationButton
+{
+    Q_OBJECT
+
+public:
+    explicit SpacerButton(KDecoration3::Decoration *decoration, QObject *parent = nullptr);
+
+    void setImplicitSize(const QSizeF &size);
+
+    void paint(QPainter *painter, const QRectF &repaintArea) override;
+};
+
 } // namespace Aurorae
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Aurorae::DecorationButton::States)
