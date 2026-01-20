@@ -421,6 +421,11 @@ ShadeDecorationButton::ShadeDecorationButton(KDecoration3::Decoration *decoratio
 }
 
 MenuDecorationButton::MenuDecorationButton(KDecoration3::Decoration *decoration, QObject *parent)
+    : SvgDecorationButton(KDecoration3::DecorationButtonType::Menu, decoration, parent)
+{
+}
+
+FallbackMenuDecorationButton::FallbackMenuDecorationButton(KDecoration3::Decoration *decoration, QObject *parent)
     : IconDecorationButton(KDecoration3::DecorationButtonType::Menu, decoration, parent)
 {
 }

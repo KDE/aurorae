@@ -66,6 +66,7 @@ public:
     QString keepBelowButtonPath() const;
     QString shadeButtonPath() const;
     QString helpButtonPath() const;
+    QString menuButtonPath() const;
     QString appMenuButtonPath() const;
     QColor activeTextColor() const;
     QColor inactiveTextColor() const;

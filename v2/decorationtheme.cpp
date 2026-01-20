@@ -430,6 +430,11 @@ QString DecorationTheme::helpButtonPath() const
     return m_helpButtonPath;
 }
 
+QString DecorationTheme::menuButtonPath() const
+{
+    return m_menuButtonPath;
+}
+
 QString DecorationTheme::appMenuButtonPath() const
 {
     return m_appMenuButtonPath;

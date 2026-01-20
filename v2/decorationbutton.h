@@ -170,12 +170,20 @@ public:
     explicit ShadeDecorationButton(KDecoration3::Decoration *decoration, QObject *parent = nullptr);
 };
 
-class MenuDecorationButton : public IconDecorationButton
+class MenuDecorationButton : public SvgDecorationButton
 {
     Q_OBJECT
 
 public:
     explicit MenuDecorationButton(KDecoration3::Decoration *decoration, QObject *parent = nullptr);
+};
+
+class FallbackMenuDecorationButton : public IconDecorationButton
+{
+    Q_OBJECT
+
+public:
+    explicit FallbackMenuDecorationButton(KDecoration3::Decoration *decoration, QObject *parent = nullptr);
 };
 
 class AppMenuDecorationButton : public SvgDecorationButton

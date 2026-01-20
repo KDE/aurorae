@@ -154,12 +154,21 @@ KDecoration3::DecorationButton *Decoration::instantiateButton(KDecoration3::Deco
 {
     switch (type) {
     case KDecoration3::DecorationButtonType::Menu: {
-        auto button = new MenuDecorationButton(decoration, parent);
-        button->setImplicitSize(m_theme->menuButtonSize() * buttonSizeFactor());
-        connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
+        if (!m_theme->menuButtonPath().isEmpty()) {
+            auto button = new MenuDecorationButton(decoration, parent);
+            button->setImagePath(m_theme->menuButtonPath(), m_theme->menuButtonSize() * buttonSizeFactor());
+            connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
+                button->setImplicitSize(m_theme->menuButtonSize() * buttonSizeFactor());
+            });
+            return button;
+        } else {
+            auto button = new FallbackMenuDecorationButton(decoration, parent);
             button->setImplicitSize(m_theme->menuButtonSize() * buttonSizeFactor());
-        });
-        return button;
+            connect(this, &Decoration::buttonSizeFactorChanged, button, [this, button]() {
+                button->setImplicitSize(m_theme->menuButtonSize() * buttonSizeFactor());
+            });
+            return button;
+        }
     }
     case KDecoration3::DecorationButtonType::ApplicationMenu: {
         if (!m_theme->appMenuButtonPath().isEmpty()) {
