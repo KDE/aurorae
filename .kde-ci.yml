@@ -13,3 +13,7 @@ Dependencies:
     'frameworks/kpackage': '@latest-kf6'
     'frameworks/ksvg': '@latest-kf6'
     'plasma/kdecoration': '@same'
+
+Options:
+ require-passing-tests-on: ['Linux', 'FreeBSD']
+ enable-lsan: True
