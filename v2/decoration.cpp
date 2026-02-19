@@ -88,7 +88,7 @@ bool Decoration::init()
 
     m_decorationMaximizedInactive = std::make_unique<KSvg::FrameSvg>();
     m_decorationMaximizedInactive->setImagePath(m_theme->decorationPath());
-    m_decorationMaximizedInactive->setElementPrefix(m_decorationInactive->hasElementPrefix(QStringLiteral("decoration-maximized-inactive")) ? QStringLiteral("decoration-maximized-inactive") : m_decorationInactive->prefix());
+    m_decorationMaximizedInactive->setElementPrefix(m_decorationInactive->hasElementPrefix(QStringLiteral("decoration-maximized-inactive")) ? QStringLiteral("decoration-maximized-inactive") : m_decorationMaximized->prefix());
     m_decorationMaximizedInactive->setEnabledBorders(KSvg::FrameSvg::NoBorder);
     m_decorationMaximizedInactive->setDevicePixelRatio(devicePixelRatio);
 
