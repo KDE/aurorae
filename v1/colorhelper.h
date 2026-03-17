@@ -8,6 +8,8 @@
 #include <QColor>
 #include <QObject>
 
+#include <qqmlregistration.h>
+
 /**
  * @short Helper to manipulate colors.
  *
@@ -16,6 +18,7 @@
 class ColorHelper : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
     /**
      * Same as KGlobalSettings::contrastF.
      */

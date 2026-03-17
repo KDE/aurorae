@@ -31,11 +31,10 @@ target_link_libraries(aurorae_v1
 
 install(TARGETS aurorae_v1 DESTINATION ${KDE_INSTALL_PLUGINDIR}/org.kde.kdecoration3)
 
-ecm_add_qml_module(decorationplugin URI org.kde.kwin.decoration VERSION 0.1 CLASS_NAME DecorationPlugin)
+ecm_add_qml_module(decorationplugin URI org.kde.kwin.decoration VERSION 0.1 GENERATE_PLUGIN_SOURCE)
 target_sources(decorationplugin PRIVATE
     colorhelper.cpp
     decorationoptions.cpp
-    decorationplugin.cpp
 )
 target_compile_definitions(decorationplugin PRIVATE
     -DTRANSLATION_DOMAIN=\"aurorae\"

@@ -11,6 +11,7 @@
 #include <QFont>
 #include <QObject>
 #include <QPalette>
+#include <qqmlregistration.h>
 
 namespace Aurorae
 {
@@ -132,6 +133,8 @@ private:
 class DecorationOptions : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+
     /**
      * The decoration Object for which this set of options should be used. The decoration is
      * required to get the correct colors and fonts depending on whether the decoration represents
@@ -255,6 +258,8 @@ private:
 class Borders : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+
     Q_PROPERTY(int left READ left WRITE setLeft NOTIFY leftChanged)
     Q_PROPERTY(int right READ right WRITE setRight NOTIFY rightChanged)
     Q_PROPERTY(int top READ top WRITE setTop NOTIFY topChanged)
