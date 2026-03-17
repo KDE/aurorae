@@ -29,6 +29,7 @@ include(KDEGitCommitHooks)
 
 include(ECMDeprecationSettings)
 include(ECMSetupVersion)
+include(ECMQmlModule)
 
 find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Core
