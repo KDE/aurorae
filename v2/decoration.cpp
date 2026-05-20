@@ -10,6 +10,7 @@
 #include "decorationbuttongroup.h"
 #include "decorationtheme.h"
 #include "decorationthemeprovider.h"
+#include "util.h"
 
 #include <KConfigGroup>
 #include <KDecoration3/DecoratedWindow>
@@ -67,43 +68,43 @@ bool Decoration::init()
     m_auroraerc = KSharedConfig::openConfig(QStringLiteral("auroraerc"));
     updateButtonSizeFactor();
 
-    const qreal devicePixelRatio = window()->scale();
+    const qreal svgDevicePixelRatio = frameSvgScale(window()->scale());
     m_decoration = std::make_unique<KSvg::FrameSvg>();
     m_decoration->setImagePath(m_theme->decorationPath());
     m_decoration->setElementPrefix(QStringLiteral("decoration"));
     m_decoration->setEnabledBorders(KSvg::FrameSvg::AllBorders);
-    m_decoration->setDevicePixelRatio(devicePixelRatio);
+    m_decoration->setDevicePixelRatio(svgDevicePixelRatio);
 
     m_decorationInactive = std::make_unique<KSvg::FrameSvg>();
     m_decorationInactive->setImagePath(m_theme->decorationPath());
     m_decorationInactive->setElementPrefix(m_decoration->hasElementPrefix(QStringLiteral("decoration-inactive")) ? QStringLiteral("decoration-inactive") : m_decoration->prefix());
     m_decorationInactive->setEnabledBorders(KSvg::FrameSvg::AllBorders);
-    m_decorationInactive->setDevicePixelRatio(devicePixelRatio);
+    m_decorationInactive->setDevicePixelRatio(svgDevicePixelRatio);
 
     m_decorationMaximized = std::make_unique<KSvg::FrameSvg>();
     m_decorationMaximized->setImagePath(m_theme->decorationPath());
     m_decorationMaximized->setElementPrefix(m_decoration->hasElementPrefix(QStringLiteral("decoration-maximized")) ? QStringLiteral("decoration-maximized") : m_decoration->prefix());
     m_decorationMaximized->setEnabledBorders(KSvg::FrameSvg::NoBorder);
-    m_decorationMaximized->setDevicePixelRatio(devicePixelRatio);
+    m_decorationMaximized->setDevicePixelRatio(svgDevicePixelRatio);
 
     m_decorationMaximizedInactive = std::make_unique<KSvg::FrameSvg>();
     m_decorationMaximizedInactive->setImagePath(m_theme->decorationPath());
     m_decorationMaximizedInactive->setElementPrefix(m_decorationInactive->hasElementPrefix(QStringLiteral("decoration-maximized-inactive")) ? QStringLiteral("decoration-maximized-inactive") : m_decorationMaximized->prefix());
     m_decorationMaximizedInactive->setEnabledBorders(KSvg::FrameSvg::NoBorder);
-    m_decorationMaximizedInactive->setDevicePixelRatio(devicePixelRatio);
+    m_decorationMaximizedInactive->setDevicePixelRatio(svgDevicePixelRatio);
 
     if (m_decoration->hasElementPrefix(QStringLiteral("innerborder"))) {
         m_innerBorder = std::make_unique<KSvg::FrameSvg>();
         m_innerBorder->setImagePath(m_theme->decorationPath());
         m_innerBorder->setElementPrefix(QStringLiteral("innerborder"));
-        m_innerBorder->setDevicePixelRatio(devicePixelRatio);
+        m_innerBorder->setDevicePixelRatio(svgDevicePixelRatio);
     }
 
     if (m_decoration->hasElementPrefix(QStringLiteral("innerborder-inactive"))) {
         m_innerBorderInactive = std::make_unique<KSvg::FrameSvg>();
         m_innerBorderInactive->setImagePath(m_theme->decorationPath());
         m_innerBorderInactive->setElementPrefix(QStringLiteral("innerborder-inactive"));
-        m_innerBorderInactive->setDevicePixelRatio(devicePixelRatio);
+        m_innerBorderInactive->setDevicePixelRatio(svgDevicePixelRatio);
     }
 
     if (m_decoration->hasElementPrefix(QStringLiteral("mask"))) {
@@ -323,18 +324,18 @@ void Decoration::onWindowCaptionChanged()
 
 void Decoration::onWindowScaleChanged()
 {
-    const qreal devicePixelRatio = window()->scale();
+    const qreal svgDevicePixelRatio = frameSvgScale(window()->scale());
 
-    m_decoration->setDevicePixelRatio(devicePixelRatio);
-    m_decorationInactive->setDevicePixelRatio(devicePixelRatio);
-    m_decorationMaximized->setDevicePixelRatio(devicePixelRatio);
-    m_decorationMaximizedInactive->setDevicePixelRatio(devicePixelRatio);
+    m_decoration->setDevicePixelRatio(svgDevicePixelRatio);
+    m_decorationInactive->setDevicePixelRatio(svgDevicePixelRatio);
+    m_decorationMaximized->setDevicePixelRatio(svgDevicePixelRatio);
+    m_decorationMaximizedInactive->setDevicePixelRatio(svgDevicePixelRatio);
 
     if (m_innerBorder) {
-        m_innerBorder->setDevicePixelRatio(devicePixelRatio);
+        m_innerBorder->setDevicePixelRatio(svgDevicePixelRatio);
     }
     if (m_innerBorderInactive) {
-        m_innerBorderInactive->setDevicePixelRatio(devicePixelRatio);
+        m_innerBorderInactive->setDevicePixelRatio(svgDevicePixelRatio);
     }
 }
 
