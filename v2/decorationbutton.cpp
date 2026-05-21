@@ -25,7 +25,9 @@ DecorationButton::States DecorationButton::states() const
     if (isHovered() || isParentHovered()) {
         states |= State::Hovered;
     }
-    if (isPressed()) {
+    // The maximize button uses a different svg for the maximized state. In hindsight, we need
+    // a "checked" prefix to represent toggled buttons such as "on all desktops", etc.
+    if (isPressed() || (isChecked() && type() != KDecoration3::DecorationButtonType::Maximize)) {
         states |= State::Pressed;
     }
     if (!isEnabled()) {
@@ -249,6 +251,7 @@ SvgDecorationButton::SvgDecorationButton(KDecoration3::DecorationButtonType type
     connect(this, &KDecoration3::DecorationButton::pressedChanged, this, &SvgDecorationButton::updateFrame);
     connect(this, &KDecoration3::DecorationButton::hoveredChanged, this, &SvgDecorationButton::updateFrame);
     connect(this, &KDecoration3::DecorationButton::enabledChanged, this, &SvgDecorationButton::updateFrame);
+    connect(this, &KDecoration3::DecorationButton::checkedChanged, this, &SvgDecorationButton::updateFrame);
     connect(this, &DecorationButton::parentHoveredChanged, this, &SvgDecorationButton::updateFrame);
 }
 
