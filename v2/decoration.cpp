@@ -308,6 +308,7 @@ void Decoration::onWindowMaximizedChanged()
 {
     updateBorders();
     updateResizeOnlyBorders();
+    updateSize();
     updateTitleBar();
     positionButtons();
     updateCaption();
