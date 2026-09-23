@@ -36,7 +36,6 @@
                 "Name[sl]": "Martin Gräßlin",
                 "Name[sv]": "Martin Gräßlin",
                 "Name[tr]": "Martin Gräßlin",
-                "Name[ug]": "Martin Gräßlin",
                 "Name[uk]": "Martin Gräßlin",
                 "Name[zh_CN]": "Martin Gräßlin",
                 "Name[zh_TW]": "Martin Gräßlin"
@@ -74,6 +73,7 @@
         "Description[sl]": "Klasična tema znana iz KDE 3",
         "Description[sv]": "Det klassiska temat känt från KDE 3",
         "Description[tr]": "KDE 3’ten bildiğimiz klasik tema",
+        "Description[ug]": "KDE 3 دەۋرىدىكى ئەنئەنىۋى ئۆرنەك",
         "Description[uk]": "Класична тема, відома з часів KDE 3",
         "Description[zh_CN]": "KDE 3 时代的经典主题",
         "Description[zh_TW]": "從 KDE3 來的傳統主題",
@@ -111,6 +111,7 @@
         "Name[sl]": "Plastik",
         "Name[sv]": "Plastik",
         "Name[tr]": "Plastik",
+        "Name[ug]": "پىلاستىك",
         "Name[uk]": "Plastik",
         "Name[zh_CN]": "Plastik 百相",
         "Name[zh_TW]": "Plastik"
